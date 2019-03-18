@@ -1,0 +1,190 @@
+-- MySQL dump 10.13  Distrib 5.7.24, for Linux (x86_64)
+--
+-- Host: localhost    Database: Shool
+-- ------------------------------------------------------
+-- Server version	5.7.24-0ubuntu0.18.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `Class`
+--
+
+DROP TABLE IF EXISTS `Class`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Class` (
+  `idClass` int(11) NOT NULL AUTO_INCREMENT,
+  `ClasscName` varchar(45) NOT NULL,
+  `option` varchar(45) NOT NULL,
+  `num` varchar(45) NOT NULL COMMENT '班级',
+  PRIMARY KEY (`idClass`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Class`
+--
+
+LOCK TABLES `Class` WRITE;
+/*!40000 ALTER TABLE `Class` DISABLE KEYS */;
+INSERT INTO `Class` VALUES (1,'python1806','PY','20'),(2,'python1807','PY','35'),(3,'h5_1804','H5','30'),(4,'h5_1800','H5','24');
+/*!40000 ALTER TABLE `Class` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Course`
+--
+
+DROP TABLE IF EXISTS `Course`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Course` (
+  `idCourse` int(11) NOT NULL AUTO_INCREMENT,
+  `CourseName` varchar(45) NOT NULL,
+  `CourseTime` int(11) DEFAULT NULL,
+  `CourseScore` int(11) DEFAULT NULL COMMENT '课程表',
+  PRIMARY KEY (`idCourse`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Course`
+--
+
+LOCK TABLES `Course` WRITE;
+/*!40000 ALTER TABLE `Course` DISABLE KEYS */;
+INSERT INTO `Course` VALUES (1,'python基础',80,25),(2,'linux',40,25),(3,'web',120,25),(4,'AI',80,25),(5,'Html',80,25),(6,'Js',80,25),(7,'Jq',80,25);
+/*!40000 ALTER TABLE `Course` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Stu_Cour`
+--
+
+DROP TABLE IF EXISTS `Stu_Cour`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Stu_Cour` (
+  `Stu_id` int(11) DEFAULT NULL,
+  `Cou_id` int(11) DEFAULT NULL,
+  `score` double(4,2) DEFAULT '0.00',
+  KEY `fk_Stu_Cour_1_idx` (`Cou_id`),
+  KEY `fk_Stu_Cour_2` (`Stu_id`),
+  CONSTRAINT `fk_Stu_Cour_1` FOREIGN KEY (`Cou_id`) REFERENCES `Course` (`idCourse`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Stu_Cour_2` FOREIGN KEY (`Stu_id`) REFERENCES `Student` (`idStudent`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Stu_Cour`
+--
+
+LOCK TABLES `Stu_Cour` WRITE;
+/*!40000 ALTER TABLE `Stu_Cour` DISABLE KEYS */;
+INSERT INTO `Stu_Cour` VALUES (6,5,12.23),(5,4,16.23),(9,1,12.89),(2,4,16.52),(5,3,14.95),(4,2,23.26),(8,7,18.71),(8,2,18.16),(6,1,14.60),(4,5,24.48),(4,1,19.21),(9,2,18.59),(5,6,20.00),(7,3,24.30),(3,7,14.61),(9,4,14.34),(9,7,21.37),(8,7,11.38),(3,1,17.64),(1,4,18.17),(5,3,10.25),(5,3,13.02),(7,6,22.87),(1,7,17.15),(3,2,21.73),(6,7,10.82),(6,2,11.68),(5,3,10.64),(7,7,13.44),(4,5,20.42),(1,3,11.98),(5,3,14.36),(2,2,11.44),(9,7,18.50),(7,2,23.17),(2,6,10.83),(7,1,13.27),(9,5,11.24),(5,1,10.10),(1,2,24.76),(5,2,11.46),(2,6,21.53),(1,1,12.09),(6,3,12.83),(6,2,19.32),(6,5,20.94),(8,2,15.60),(2,5,19.34),(4,6,19.09),(6,1,12.76),(1,3,22.06),(8,2,14.45),(1,5,11.33),(4,4,15.08),(5,3,18.13),(1,4,21.57),(5,5,18.45),(2,4,12.57),(1,4,22.29),(4,4,16.60),(2,4,12.48),(6,3,14.91),(5,1,14.88),(7,1,13.35),(2,2,22.06),(4,7,21.50),(8,5,24.31),(4,7,24.44),(9,2,22.97),(8,1,24.53),(1,5,13.90),(7,7,17.26),(7,4,15.13),(7,1,16.04),(8,7,20.02),(2,5,10.09),(6,5,16.58),(6,5,24.04),(1,2,17.39),(9,3,16.63),(1,5,16.67),(1,4,11.23),(8,6,16.28),(7,6,22.28),(1,1,21.67),(8,6,13.69),(3,6,11.78),(6,6,19.20),(4,2,15.20),(4,2,24.35),(2,2,18.72),(3,1,11.84),(2,4,23.68),(7,2,19.09),(1,7,24.99),(5,2,16.61),(5,7,21.48),(1,6,18.06),(4,7,11.50),(5,3,20.30);
+/*!40000 ALTER TABLE `Stu_Cour` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Student`
+--
+
+DROP TABLE IF EXISTS `Student`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Student` (
+  `idStudent` int(11) NOT NULL AUTO_INCREMENT COMMENT '学号',
+  `StudentName` varchar(45) NOT NULL COMMENT '姓名',
+  `age` int(11) NOT NULL COMMENT '年龄',
+  `sex` blob NOT NULL COMMENT '性别',
+  `cid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idStudent`),
+  KEY `fk_Student_1_idx` (`cid`),
+  CONSTRAINT `fk_Student_1` FOREIGN KEY (`cid`) REFERENCES `Class` (`idClass`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Student`
+--
+
+LOCK TABLES `Student` WRITE;
+/*!40000 ALTER TABLE `Student` DISABLE KEYS */;
+INSERT INTO `Student` VALUES (1,'dive',30,_binary '1',1),(2,'mark',23,_binary '1',2),(3,'adren',18,_binary '1',3),(4,'kelly',24,_binary '0',4),(5,'marray',31,_binary '0',1),(6,'jack',29,_binary '1',2),(7,'bush',28,_binary '0',3),(8,'linken',45,_binary '1',4),(9,'alisc',28,_binary '0',3);
+/*!40000 ALTER TABLE `Student` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Tea_Cour`
+--
+
+DROP TABLE IF EXISTS `Tea_Cour`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Tea_Cour` (
+  `idTea` int(11) NOT NULL,
+  `idCou` int(11) NOT NULL,
+  PRIMARY KEY (`idTea`,`idCou`),
+  KEY `idCou` (`idCou`),
+  CONSTRAINT `Tea_Cour_ibfk_1` FOREIGN KEY (`idTea`) REFERENCES `Teacher` (`idTeacher`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `Tea_Cour_ibfk_2` FOREIGN KEY (`idCou`) REFERENCES `Course` (`idCourse`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Tea_Cour`
+--
+
+LOCK TABLES `Tea_Cour` WRITE;
+/*!40000 ALTER TABLE `Tea_Cour` DISABLE KEYS */;
+INSERT INTO `Tea_Cour` VALUES (1,1),(3,1),(1,2),(2,2),(1,3),(3,3),(1,4),(1,5),(2,5),(3,5),(1,6),(2,6),(3,6),(1,7),(3,7);
+/*!40000 ALTER TABLE `Tea_Cour` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Teacher`
+--
+
+DROP TABLE IF EXISTS `Teacher`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Teacher` (
+  `idTeacher` int(11) NOT NULL AUTO_INCREMENT,
+  `Title` varchar(45) NOT NULL,
+  `Name` varchar(45) NOT NULL,
+  `sex` tinyint(1) DEFAULT '0',
+  `age` int(4) DEFAULT '0',
+  PRIMARY KEY (`idTeacher`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Teacher`
+--
+
+LOCK TABLES `Teacher` WRITE;
+/*!40000 ALTER TABLE `Teacher` DISABLE KEYS */;
+INSERT INTO `Teacher` VALUES (1,'gold','dive lee',1,30),(2,'new','mark wong',1,23),(3,'old','adren chang',1,18);
+/*!40000 ALTER TABLE `Teacher` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2018-12-12  8:51:25
