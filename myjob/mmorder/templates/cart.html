@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+    <script type="text/javascript" src="{%static 'js/jquery.js'  %}"></script>
+    <script>
+        $(function () {
+            $(".confirm").click(function () {
+                console.log("change state");
+                var $confirm = $(this);
+                var $li = $confirm.parents("li");
+                var cartid = $li.attr('cartid');
+                $.getJSON("/mm_order/changecartstate/",{'cartid':cartid},function (data) {
+                    console.log(data);
+                    $("#total_price").html(data['total_price']);
+                    if (data['cart_is_select']){
+                        $confirm.find('input').prop("checked",true);
+                    }else{
+                        $confirm.find('input').prop("checked", false);
+                    }
+                    if(data['is_all_select']){
+                        $(".all_select input").prop("checked",true);
+                    }else{
+                        $(".all_select input").prop("checked", false);
+                    }
+                })
+            })
+            $(".addshopping").click(function () {
+                var $add = $(this);
+                var $li = $add.parents("li");
+                var cartid = $li.attr("cartid");
+                $.getJSON("/mm_order/addcart/",{"cartid":cartid},function (data) {
+                    console.log(data);
+                    $("#total_price").html(data['total_price']);
+                    $add.prev('span').html(data['cart_foods_num']);
+                })
+            })
+            $(".subshopping").click(function () {
+                var $sub = $(this);
+                var $li = $sub.parents("li");
+                var cartid = $li.attr("cartid");
+                $.getJSON("/mm_order/subcart/",{"cartid":cartid},function (data) {
+                    console.log(data)
+                    $("#total_price").html(data['total_price']);
+                     if(data["cart_foods_num"]>0){
+                         $sub.next('span').html(data['cart_foods_num']);
+                     }else{
+                         $li.remove();
+                     }
+                })
+            })
+            $(".all_select").click(function () {
+                var $all_select = $(this);
+                if($all_select.find("input").prop("checked")){
+                    $all_select.find('input').removeAttr("checked", true);
+                }else {
+                     $all_select.find('input').prop("checked",true);
+                }
+                var unselect_list = []
+                $(".confirm").each(function () {
+                    var $confirm = $(this);
+                    var cartid = $confirm.parents("li").attr("cartid");
+                    if(!($confirm.find("span").find('input').prop("checked"))){
+                        unselect_list.push(cartid);
+                    }
+                })
+                if(unselect_list.length > 0){
+                    $.getJSON("/mm_order/allselect/",{"cart_list":unselect_list.join("#")},function (data) {
+                        console.log(data);
+                        $(".confirm").find("span").find('input').prop("checked",true);
+                        $all_select.find('input').removeAttr("checked", true);
+                        $("#total_price").html(data["total_price"]);
+                    })
+                }
+            })
+            $("#make_order").click(function () {
+                var select_list = [];
+                $(".confirm").each(function () {
+                    var $confirm = $(this);
+                    var cartid = $confirm.parents("li").attr("cartid");
+                    if($confirm.find("input").prop("checked")){
+                        select_list.push(cartid);
+                    }
+                })
+                if(select_list.length === 0){
+                    alert("未选中任何条目，不能下单！");
+                    return;
+                }
+                $.getJSON("/mm_order/makeorder/",function (data) {
+                    console.log(data);
+                    window.open("/mm_order/orderdetail/?orderid=" + data['order_id'],target="_self");
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+    <a href="">首页</a>
+    <a href=" {% url 'mm_order:shop_message' 1 %} ">点餐</a>
+    <a href="">个人中心</a>
+    <br/>
+    <br/>
+    {% for cart in carts %}
+        <li class="menuList" cartid="{{ cart.id }}">
+            <div>
+                <span class="confirm">
+                    <input type="checkbox" checked="true">
+                </span>
+            </div>
+            <img src="{{ cart.foods.fimg }}"><br/>
+            <span>{{ cart.foods.fname }}</span>
+            <button class="subshopping">-</button>
+            <span>{{ cart.cart_foods_num }}</span>
+            <button class="addshopping">+</button>
+            <br/>
+        </li>
+    {% endfor %}
+    <div class="payTheBill">
+        <div class="all_select">
+                <span><input type="checkbox"></span>
+        </div>
+        <span>共计：</span>
+        <span id="total_price">{{ total_price }}</span>
+        <button id="make_order">下单</button>
+    </div>
+    
+</body>
+</html>
