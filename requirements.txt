@@ -24,7 +24,7 @@ django-redis==4.10.0
 django-redis-cache==1.8.1
 django-redis-sessions==0.6.1
 django-reversion==3.0.3
-djangorestframework==3.9.0
+djangorestframework==3.11.2
 et-xmlfile==1.0.1
 Flask==1.0.2
 flask-blueprint==1.2.7
