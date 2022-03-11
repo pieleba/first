@@ -56,7 +56,7 @@ odfpy==1.4.0
 opencv-python==4.0.0.21
 openpyxl==2.6.1
 parsel==1.5.1
-Pillow==5.4.1
+Pillow==9.0.1
 pyasn1==0.4.5
 pyasn1-modules==0.2.4
 pycparser==2.19
